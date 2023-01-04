@@ -5,8 +5,9 @@ require_relative 'board'
 # This class acts as a central command center of a Chess game.
 #
 class Model
-  def initialize(brd)
+  def initialize(brd, player = nil)
     @brd = brd
+    @cur_p = player
   end
 
   def self.new_game
@@ -24,5 +25,9 @@ class Model
 
   def move_pc(from, to)
     @brd.reassign_pc(from, to)
+  end
+
+  def record_king_sqr(sqr)
+    @cur_p.update_king_sqr(sqr)
   end
 end
