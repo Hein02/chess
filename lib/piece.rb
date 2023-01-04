@@ -27,5 +27,6 @@ class Piece
   def initialize(clr, id)
     @clr = clr
     @id = id
+    @sym = PCS_SYMS[id]
   end
 end
