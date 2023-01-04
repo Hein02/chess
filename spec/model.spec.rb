@@ -52,4 +52,13 @@ describe Model do
       model.king_in_check?(king)
     end
   end
+
+  describe '#move_back' do
+    it 'calls Board#reassign_pc with arguments in reverse order' do
+      from = :a1
+      to = :a3
+      expect(brd).to receive(:reassign_pc).with(to, from)
+      model.move_back(from, to)
+    end
+  end
 end

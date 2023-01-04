@@ -34,4 +34,8 @@ class Model
   def king_in_check?(piece)
     piece.in_check?
   end
+
+  def move_back(from, to)
+    @brd.reassign_pc(to, from)
+  end
 end
