@@ -8,4 +8,9 @@ class Model
   def initialize(board)
     @board = board
   end
+
+  def self.new_game
+    brd = Board.init_setup
+    Model.new(brd)
+  end
 end
