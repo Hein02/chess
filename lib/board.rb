@@ -68,4 +68,10 @@ class Board
   def remove_pc(sqr)
     @sqrs[sqr] = nil
   end
+
+  def reassign_pc(from, to)
+    pc = find_pc(from)
+    assign_pc(pc, to)
+    remove_pc(from)
+  end
 end
