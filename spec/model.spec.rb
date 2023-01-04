@@ -61,4 +61,13 @@ describe Model do
       model.move_back(from, to)
     end
   end
+
+  describe '#record_first_move' do
+    let(:king) { double('king') }
+
+    it 'calls Piece#first_move with true' do
+      expect(king).to receive(:update_first_move).with(true)
+      model.record_first_move(king)
+    end
+  end
 end

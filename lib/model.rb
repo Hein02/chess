@@ -38,4 +38,8 @@ class Model
   def move_back(from, to)
     @brd.reassign_pc(to, from)
   end
+
+  def record_first_move(piece)
+    piece.update_first_move(true)
+  end
 end
