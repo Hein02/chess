@@ -33,4 +33,8 @@ class Piece
   def to_s
     @sym
   end
+
+  def find_hor_dir(dir)
+    dir[-1].to_sym if dir.end_with?('W', 'E')
+  end
 end
