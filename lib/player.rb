@@ -10,4 +10,8 @@ class Player
     @name = name
     @king_sqr = clr == :w ? :e1 : :e8
   end
+
+  def update_king_sqr(sqr)
+    @king_sqr = sqr
+  end
 end
