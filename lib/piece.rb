@@ -34,6 +34,12 @@ class Piece
     @sym
   end
 
+  # @param dir [Symbol] It can either be one-character or two-character symbol.
+  #   It must start with either N or S.
+  #   It must end with E or W if it is two-character symbol
+  # @example :N, :E, :W, :S, :NE, :NW, :SE, :SW
+  # @return [Symbol, nil] It can be one of :E and :W, or nil if dir does not ends with either E or W.
+  #
   def find_hor_dir(dir)
     dir[-1].to_sym if dir.end_with?('W', 'E')
   end
