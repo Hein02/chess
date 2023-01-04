@@ -21,4 +21,8 @@ class Model
   def find_movement(piece, sqr)
     piece.movement(sqr)
   end
+
+  def move_pc(from, to)
+    @brd.reassign_pc(from, to)
+  end
 end
