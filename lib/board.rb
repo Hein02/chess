@@ -16,6 +16,10 @@ class Board
     @sqrs = sqrs
   end
 
+  def sqrs
+    @sqrs.dup
+  end
+
   # This method initializes a board that has pieces at their respective initial squares.
   #
   def self.init_setup
