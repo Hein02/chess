@@ -60,4 +60,8 @@ class Board
   def find_pc(sqr)
     @sqrs[sqr]
   end
+
+  def assign_pc(piece, sqr)
+    @sqrs[sqr] = piece
+  end
 end
