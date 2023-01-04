@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+FILES = %i[a b c d e f g h].freeze
+
 # This class represents the chess board.
 #
 class Board
@@ -21,11 +23,10 @@ class Board
   # This method can generate two different 16-pieces chess set with their initial squares, based on the color.
   #
   def self.chess_set(clr)
-    files = %i[a b c d e f g h]
     pwns_rnk = clr == :w ? '2' : '7'
     pcs_rnk = clr == :w ? '1' : '8'
     pcs = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook, Pawn].freeze
-    files.each_with_object({}).with_index do |(file, sqrs), idx|
+    FILES.each_with_object({}).with_index do |(file, sqrs), idx|
       pwn_at = "#{file}#{pwns_rnk}".to_sym
       pc_at = "#{file}#{pcs_rnk}".to_sym
       sqrs[pwn_at] = pcs[8].new(clr)
