@@ -5,9 +5,11 @@ require_relative 'board'
 # This class acts as a central command center of a Chess game.
 #
 class Model
-  def initialize(brd, player = nil)
+  def initialize(brd, w_player, b_player)
     @brd = brd
-    @cur_p = player
+    @cur_p = w_player
+    @w_player = w_player
+    @b_player = b_player
   end
 
   def self.new_game
@@ -41,5 +43,12 @@ class Model
 
   def record_first_move(piece)
     piece.update_first_move(true)
+  end
+
+  # TODO: check if there is an en_passant move
+  # TODO: check if the king can make castling move
+
+  def switch_player
+    @cur_p = @cur_p == @w_player ? @b_player : @w_player
   end
 end
