@@ -76,4 +76,30 @@ describe Piece do
       end
     end
   end
+
+  describe '#find_adj_fl' do
+    it 'returns the adjacent file' do
+      cur_fl = :a
+      ver_dir = :N
+      adj_fl = pc.find_adj_fl(cur_fl, ver_dir)
+      expect(adj_fl).to eq(:b)
+    end
+
+    context 'when there is no vertical dir' do
+      it 'returns file of current sqr' do
+        cur_fl = :a
+        adj_fl = pc.find_adj_fl(cur_fl, nil)
+        expect(adj_fl).to eq(cur_fl)
+      end
+    end
+
+    context 'when cur_fl is at the edge of the board' do
+      it 'returns rank of current sqr' do
+        cur_fl = :a
+        ver_dir = :S
+        adj_fl = pc.find_adj_fl(cur_fl, ver_dir)
+        expect(adj_fl).to eq(cur_fl)
+      end
+    end
+  end
 end

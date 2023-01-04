@@ -65,4 +65,14 @@ class Piece
 
     RANKS[adj_rnk_idx]
   end
+
+  def find_adj_fl(cur_fl, ver_dir)
+    return cur_fl if ver_dir.nil?
+
+    cur_fl_idx = FILES.index(cur_fl)
+    adj_fl_idx = cur_fl_idx + NEWS[ver_dir]
+    return cur_fl if adj_fl_idx.negative?
+
+    FILES[adj_fl_idx]
+  end
 end
