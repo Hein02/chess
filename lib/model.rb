@@ -17,4 +17,8 @@ class Model
   def select_pc(sqr)
     @brd.find_pc(sqr)
   end
+
+  def find_movement(piece, sqr)
+    piece.movement(sqr)
+  end
 end
