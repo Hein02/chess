@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'piece'
+
 # This class represents a rook.
 #
-class Rook
+class Rook < Piece
   def initialize(clr, id = :R)
     super(clr, id)
   end
