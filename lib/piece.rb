@@ -41,6 +41,10 @@ class Piece
   # @return [Symbol, nil] It can be one of :E and :W, or nil if dir does not ends with either E or W.
   #
   def find_hor_dir(dir)
-    dir[-1].to_sym if dir.end_with?('W', 'E')
+    dir[-1].to_sym if dir.end_with?('E', 'W')
+  end
+
+  def find_ver_dir(dir)
+    dir[0].to_sym if dir.start_with?('N', 'S')
   end
 end
