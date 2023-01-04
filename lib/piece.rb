@@ -21,6 +21,10 @@ PCS_SYMS = {
   }
 }.freeze
 
+FILES = %i[a b c d e f g h].freeze
+RANKS = %i[1 2 3 4 5 6 7 8].freeze
+NEWS = { N: 1, E: 1, W: -1, S: -1 }.freeze
+
 # This class represents pieces.
 #
 class Piece
@@ -46,5 +50,19 @@ class Piece
 
   def find_ver_dir(dir)
     dir[0].to_sym if dir.start_with?('N', 'S')
+  end
+
+  # @param cur_rnk [Symbol] the rank of the current sqr
+  # @param hor_dir [Symbol] either :E or :W
+  # @return [Symbol] the rank of the adjacent sqr
+  #
+  def find_adj_rnk(cur_rnk, hor_dir)
+    return cur_rnk if hor_dir.nil?
+
+    cur_rnk_idx = RANKS.index(cur_rnk)
+    adj_rnk_idx = cur_rnk_idx + NEWS[hor_dir]
+    return cur_rnk if adj_rnk_idx.negative? # prevent from picking up the last rank when idx is negative
+
+    RANKS[adj_rnk_idx]
   end
 end

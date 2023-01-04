@@ -50,4 +50,30 @@ describe Piece do
       end
     end
   end
+
+  describe '#find_adj_rnk' do
+    it 'returns the adjacent rank' do
+      cur_rnk = :'2'
+      hor_dir = :W
+      adj_rnk = pc.find_adj_rnk(cur_rnk, hor_dir)
+      expect(adj_rnk).to eq(:'1')
+    end
+
+    context 'when there is no horizontal dir' do
+      it 'returns rank of current sqr' do
+        cur_rnk = :'1'
+        adj_rnk = pc.find_adj_rnk(cur_rnk, nil)
+        expect(adj_rnk).to eq(cur_rnk)
+      end
+    end
+
+    context 'when cur_rnk is at the edge of the board' do
+      it 'returns rank of current sqr' do
+        cur_rnk = :'1'
+        hor_dir = :W
+        adj_rnk = pc.find_adj_rnk(cur_rnk, hor_dir)
+        expect(adj_rnk).to eq(cur_rnk)
+      end
+    end
+  end
 end
