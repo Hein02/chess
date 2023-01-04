@@ -43,4 +43,13 @@ describe Model do
       model_cur_p.record_king_sqr(sqr)
     end
   end
+
+  describe '#king_in_check?' do
+    let(:king) { double('king') }
+
+    it 'calls King#in_check?' do
+      expect(king).to receive(:in_check?)
+      model.king_in_check?(king)
+    end
+  end
 end

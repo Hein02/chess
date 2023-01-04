@@ -30,4 +30,8 @@ class Model
   def record_king_sqr(sqr)
     @cur_p.update_king_sqr(sqr)
   end
+
+  def king_in_check?(piece)
+    piece.in_check?
+  end
 end
