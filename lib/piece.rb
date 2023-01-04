@@ -34,36 +34,42 @@ class Piece
     @sym = PCS_SYMS[clr][id]
   end
 
+  def find_path(cur_sq, dir, &stop_after)
+    stack = [cur_sq]
+    fl_dir = find_fl_dir(dir)
+    rk_dir = find_rk_dir(dir)
+    traverse(stack, fl_dir, rk_dir, &stop_after)
+  end
+
   def to_s
     @sym
   end
 
-  # @param dir [Symbol] It can either be one-character or two-character symbol.
-  #   It must start with either N or S.
-  #   It must end with E or W if it is two-character symbol
-  # @example :N, :E, :W, :S, :NE, :NW, :SE, :SW
-  # @return [Symbol, nil] It can be one of :E and :W, or nil if dir does not ends with either E or W.
-  #
-  def find_fl_dir(dir)
-    dir[-1].to_sym if dir.end_with?('E', 'W')
+  private
+
+  def traverse(stack, fl_dir, rk_dir, path = [], cnt = 1, &stop_after)
+    cur_sq = stack.pop
+    adj_sq = find_adj_sq(cur_sq, fl_dir, rk_dir)
+    return path if adj_sq.nil?
+
+    cond = stop_after.call(adj_sq, cnt) if block_given?
+    return path << adj_sq if cond
+
+    stack << adj_sq
+    path << adj_sq
+    traverse(stack, fl_dir, rk_dir, path, cnt + 1)
   end
 
-  def find_rk_dir(dir)
-    dir[0].to_sym if dir.start_with?('N', 'S')
-  end
+  def find_adj_sq(cur_sq, fl_dir, rk_dir)
+    return if cur_sq.nil?
 
-  # @param cur_fl [Symbol] the file of the current sqr
-  # @param fl_dir [Symbol] either :E or :W
-  # @return [Symbol] the file of the adjacent sqr
-  #
-  def find_adj_fl(cur_fl, fl_dir)
-    return cur_fl if fl_dir.nil?
+    cur_fl = cur_sq[0].to_sym
+    cur_rk = cur_sq[1].to_sym
 
-    cur_fl_idx = FILES.index(cur_fl)
-    adj_fl_idx = cur_fl_idx + NEWS[fl_dir]
-    return cur_fl if adj_fl_idx.negative? # prevent from picking up the last file when idx is negative
+    adj_fl = find_adj_fl(cur_fl, fl_dir)
+    adj_rk = find_adj_rk(cur_rk, rk_dir)
 
-    FILES[adj_fl_idx]
+    "#{adj_fl}#{adj_rk}".to_sym if adj_fl && adj_rk
   end
 
   # @param cur_rk [Symbol] the rank of the current sqr
@@ -80,25 +86,31 @@ class Piece
     RANKS[adj_rk_idx]
   end
 
-  def find_adj_sq(cur_sq, fl_dir, rk_dir)
-    return if cur_sq.nil?
+  # @param cur_fl [Symbol] the file of the current sqr
+  # @param fl_dir [Symbol] either :E or :W
+  # @return [Symbol] the file of the adjacent sqr
+  #
+  def find_adj_fl(cur_fl, fl_dir)
+    return cur_fl if fl_dir.nil?
 
-    cur_fl = cur_sq[0].to_sym
-    cur_rk = cur_sq[1].to_sym
+    cur_fl_idx = FILES.index(cur_fl)
+    adj_fl_idx = cur_fl_idx + NEWS[fl_dir]
+    return cur_fl if adj_fl_idx.negative? # prevent from picking up the last file when idx is negative
 
-    adj_fl = find_adj_fl(cur_fl, fl_dir)
-    adj_rk = find_adj_rk(cur_rk, rk_dir)
-
-    "#{adj_fl}#{adj_rk}".to_sym if adj_fl && adj_rk
+    FILES[adj_fl_idx]
   end
 
-  def traverse(stack, fl_dir, rk_dir, path = [], count = 1)
-    cur_sq = stack.pop
-    adj_sq = find_adj_sq(cur_sq, fl_dir, rk_dir)
-    return path if adj_sq.nil?
+  # @param dir [Symbol] It can either be one-character or two-character symbol.
+  #   It must start with either N or S.
+  #   It must end with E or W if it is two-character symbol
+  # @example :N, :E, :W, :S, :NE, :NW, :SE, :SW
+  # @return [Symbol, nil] It can be one of :E and :W, or nil if dir does not ends with either E or W.
+  #
+  def find_fl_dir(dir)
+    dir[-1].to_sym if dir.end_with?('E', 'W')
+  end
 
-    stack << adj_sq
-    path << adj_sq
-    traverse(stack, fl_dir, rk_dir, path, count + 1)
+  def find_rk_dir(dir)
+    dir[0].to_sym if dir.start_with?('N', 'S')
   end
 end
