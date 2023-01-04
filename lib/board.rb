@@ -56,4 +56,8 @@ class Board
     ].freeze
     sqrs.each_with_object({}) { |sqr, brd| brd[sqr] = nil }
   end
+
+  def find_pc(sqr)
+    @sqrs[sqr]
+  end
 end
