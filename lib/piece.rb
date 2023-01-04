@@ -3,7 +3,7 @@
 # unicode chess-piece symbols look-up
 #
 PCS_SYMS = {
-  black: {
+  b: {
     K: "\u2654",
     Q: "\u2655",
     R: "\u2656",
@@ -11,7 +11,7 @@ PCS_SYMS = {
     N: "\u2658",
     P: "\u2659"
   },
-  white: {
+  w: {
     K: "\u265a",
     Q: "\u265b",
     R: "\u265c",
@@ -27,7 +27,7 @@ class Piece
   def initialize(clr, id)
     @clr = clr
     @id = id
-    @sym = PCS_SYMS[id]
+    @sym = PCS_SYMS[clr][id]
   end
 
   def to_s
