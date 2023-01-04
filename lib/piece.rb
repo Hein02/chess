@@ -29,4 +29,8 @@ class Piece
     @id = id
     @sym = PCS_SYMS[id]
   end
+
+  def to_s
+    @sym
+  end
 end
