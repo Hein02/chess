@@ -64,4 +64,8 @@ class Board
   def assign_pc(piece, sqr)
     @sqrs[sqr] = piece
   end
+
+  def remove_pc(sqr)
+    @sqrs[sqr] = nil
+  end
 end
