@@ -14,12 +14,22 @@ class Pawn < King
 
   def movement(cur_sq, sqrs)
     paths = collect_paths(cur_sq)
+    move_paths = select_mv_pths(paths)
+    cap_paths = select_cp_pths(paths)
     movement = {
-      moves: find_moves(paths, sqrs),
-      captures: find_captures(paths, sqrs)
+      moves: find_moves(move_paths, sqrs),
+      captures: find_captures(cap_paths, sqrs)
     }
     movement[:en_pas] = find_sq_behind(@en_pas_sq) if @en_pas_sq
     movement
+  end
+
+  def select_mv_pths(paths)
+    paths.select { |dir, _| %i[N S].include?(dir) }
+  end
+
+  def select_cp_pths(paths)
+    paths.reject { |dir, _| %i[N S].include?(dir) }
   end
 
   def collect_paths(cur_sq)
