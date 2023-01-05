@@ -45,8 +45,6 @@ class Piece
     @sym
   end
 
-  private
-
   def traverse(stack, fl_dir, rk_dir, path = [], cnt = 1, &stop_after)
     cur_sq = stack.pop
     adj_sq = find_adj_sq(cur_sq, fl_dir, rk_dir)
@@ -57,7 +55,7 @@ class Piece
 
     stack << adj_sq
     path << adj_sq
-    traverse(stack, fl_dir, rk_dir, path, cnt + 1)
+    traverse(stack, fl_dir, rk_dir, path, cnt + 1, &stop_after)
   end
 
   def find_adj_sq(cur_sq, fl_dir, rk_dir)
@@ -81,7 +79,7 @@ class Piece
 
     cur_rk_idx = RANKS.index(cur_rk)
     adj_rk_idx = cur_rk_idx + NEWS[rk_dir]
-    return cur_rk if adj_rk_idx.negative? # prevent from picking up the last rank when idx is negative
+    return if adj_rk_idx.negative? # prevent from picking up the last rank when idx is negative
 
     RANKS[adj_rk_idx]
   end
@@ -95,7 +93,7 @@ class Piece
 
     cur_fl_idx = FILES.index(cur_fl)
     adj_fl_idx = cur_fl_idx + NEWS[fl_dir]
-    return cur_fl if adj_fl_idx.negative? # prevent from picking up the last file when idx is negative
+    return if adj_fl_idx.negative? # prevent from picking up the last file when idx is negative
 
     FILES[adj_fl_idx]
   end
