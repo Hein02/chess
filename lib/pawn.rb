@@ -21,18 +21,18 @@ class Pawn < King
     }
   end
 
-  def find_move_path(paths, sqrs)
-    paths.select { |dir, path| %i[N S].include?(dir) && sqrs[path[0]].nil? }
+  def collect_paths(cur_sq)
+    @news.each_with_object({}) do |dir, paths|
+      paths[dir] = if %i[N S].include?(dir)
+                     find_move_path(cur_sq, dir)
+                   else
+                     paths[dir] = find_path(cur_sq, dir) { |_, cnt| cnt == 1 }
+                   end
+    end
   end
 
-  def add_one_sq(fl_path)
-    fl_path.each_with_object({}) do |(dir, path), hash|
-      if path.empty?
-        hash[dir] = path
-      else
-        one_sq = find_path(path[0], dir) { |_, cnt| cnt == 1 }
-        hash[dir] = path.concat(one_sq)
-      end
-    end
+  def find_move_path(cur_sq, dir)
+    movable = @first_move ? 2 : 1
+    find_path(cur_sq, dir) { |_, cnt| cnt == movable }
   end
 end
