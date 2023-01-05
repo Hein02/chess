@@ -8,5 +8,6 @@ class Rook < Piece
   def initialize(clr, id = :R)
     super(clr, id)
     @news = %i[N E W S]
+    @first_move = true
   end
 end

@@ -7,6 +7,7 @@ require_relative 'piece'
 class King < Piece
   def initialize(clr, id = :K)
     super(clr, id)
+    @first_move = true
   end
 
   def collect_paths(*args)
@@ -18,6 +19,7 @@ class King < Piece
     end
   end
 
+  # King in check
   def in_check?(cur_sq, sqrs)
     dbles = create_dbles
     dbles.any? do |dbl|
@@ -37,4 +39,6 @@ class King < Piece
       found && found.clr != @clr && found.id == dbl.id
     end
   end
+
+
 end
