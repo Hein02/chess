@@ -10,6 +10,12 @@ class Knight < Piece
     @news = %i[NE NW SE SW EN ES WN WS]
   end
 
+  def collect_paths(cur_sq)
+    @news.each_with_object({}) do |dir, paths|
+      paths[dir] = knight_find_path(cur_sq, dir)
+    end
+  end
+
   def knight_find_path(cur_sq, dir)
     two_sq_dir = dir[0].to_sym
     one_sq_dir = dir[1].to_sym
