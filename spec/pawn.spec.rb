@@ -25,4 +25,32 @@ describe Pawn do
       end
     end
   end
+
+  describe '#collect_paths' do
+    context 'for white pawn' do
+      it 'returns all the paths' do
+        paths = {
+          N: %i[d3 d4],
+          NE: [:e3],
+          NW: [:c3]
+        }
+        actual = pawn.collect_paths(:d2)
+        expect(actual).to eq(paths)
+      end
+    end
+
+    context 'for black pawn' do
+      subject(:black_pawn) { described_class.new(:b) }
+
+      it 'returns all the paths' do
+        paths = {
+          S: %i[d6 d5],
+          SE: [:e6],
+          SW: [:c6]
+        }
+        actual = black_pawn.collect_paths(:d7)
+        expect(actual).to eq(paths)
+      end
+    end
+  end
 end
