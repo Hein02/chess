@@ -51,4 +51,8 @@ class Pawn < King
     dir = @clr == :w ? 1 : -1
     "#{sqr[0]}#{sqr[1].to_i + dir}".to_sym
   end
+
+  def update_en_pas_sq(sqr)
+    @en_pas_sq = sqr
+  end
 end
