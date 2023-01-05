@@ -27,6 +27,8 @@ NEWS = { N: 1, E: 1, W: -1, S: -1 }.freeze
 # This class represents pieces.
 #
 class Piece
+  attr_reader :clr
+
   def initialize(clr, id)
     @clr = clr
     @id = id
