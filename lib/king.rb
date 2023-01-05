@@ -39,8 +39,7 @@ class King < Piece
   def in_check?(cur_sq, sqrs)
     dbles = create_dbles
     dbles.any? do |dbl|
-      movement = dbl.movement(cur_sq, sqrs)
-      captures = movement[:captures]
+      captures = dbl.fake_captures(cur_sq, sqrs)
       dbl_exists?(dbl, captures, sqrs)
     end
   end
@@ -66,7 +65,7 @@ class King < Piece
     pth_nt_under_atk = pth_nt_under_atk(sqrs)
     return [] if pth_nt_under_atk.empty?
 
-    update_rooks(rooks_sqs, sqrs, pth_nt_under_atk)
+    # update_rooks(rooks_sqs, sqrs, pth_nt_under_atk)
     king_sqs(pth_nt_under_atk)
   end
 
@@ -93,7 +92,7 @@ class King < Piece
   def update_rooks(rooks_sqs, sqrs, castling_paths)
     rooks_dests = rooks_dest(castling_paths)
     rooks_dests.each_with_index do |dest, idx|
-      sqrs[rooks_sqs[idx]].update_castling_sq(dest)
+      sqrs[rooks_sqs[idx]]&.update_castling_sq(dest)
     end
   end
 
