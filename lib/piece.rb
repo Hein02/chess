@@ -21,7 +21,6 @@ PCS_SYMS = {
   }
 }.freeze
 
-FILES = %i[a b c d e f g h].freeze
 RANKS = %i[1 2 3 4 5 6 7 8].freeze
 NEWS = { N: 1, E: 1, W: -1, S: -1 }.freeze
 
