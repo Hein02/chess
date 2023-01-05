@@ -28,4 +28,9 @@ class Queen < Piece
     end
   end
 
+  def find_captures(paths, sqrs)
+    paths.values.flatten.select do |sqr|
+      sqrs[sqr] && sqrs[sqr].clr != @color
+    end
+  end
 end

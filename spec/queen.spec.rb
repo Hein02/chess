@@ -53,4 +53,43 @@ describe Queen do
       expect(moves).to eq(expected)
     end
   end
+
+  describe '#find_captures' do
+    let(:enemy_pc) { double('piece', { clr: :b }) }
+
+    it 'returns sqrs with enemy pieces on them' do
+      sqrs = { d5: enemy_pc, h1: enemy_pc }
+      movement = {
+        N: %i[d2 d3 d4 d5],
+        E: %i[e1 f1 g1 h1],
+        W: %i[c1 b1 a1],
+        S: [],
+        NE: %i[e2 f3 g4 h5],
+        NW: %i[c2 b3 a4],
+        SE: [],
+        SW: []
+      }
+      captures = queen.find_captures(movement, sqrs)
+      expected = %i[d5 h1]
+      expect(captures).to eq(expected)
+    end
+
+    context 'when there is no enemy' do
+      it 'returns empty arr' do
+        sqrs = {}
+        movement = {
+          N: %i[d2 d3 d4 d5],
+          E: %i[e1 f1 g1 h1],
+          W: %i[c1 b1 a1],
+          S: [],
+          NE: %i[e2 f3 g4 h5],
+          NW: %i[c2 b3 a4],
+          SE: [],
+          SW: []
+        }
+        captures = queen.find_captures(movement, sqrs)
+        expect(captures).to be_empty
+      end
+    end
+  end
 end
