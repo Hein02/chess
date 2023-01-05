@@ -23,7 +23,7 @@ describe Queen do
     context 'when a piece is blocking on one of the paths' do
       let(:piece) { double('piece') }
 
-      it 'collects paths for all eight directions' do
+      it 'returns the path without the sqrs that are blocked' do
         sqrs = { d5: piece }
         path = queen.collect_paths(:d1, sqrs)
         expected = %i[d2 d3 d4 d5]
