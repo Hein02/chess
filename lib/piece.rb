@@ -71,6 +71,11 @@ class Piece
     traverse(stack, fl_dir, rk_dir, &stop_after)
   end
 
+  def fake_captures(cur_sq, sqrs)
+    paths = collect_paths(cur_sq, sqrs)
+    find_captures(paths, sqrs)
+  end
+
   def to_s
     @sym
   end
