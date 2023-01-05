@@ -14,7 +14,8 @@ class Knight < Piece
   # differ from Piece#collect_paths in a way that
   # it uses its own Knight#knight_find_path instead of Piece#find_path
   #
-  def collect_paths(cur_sq)
+  def collect_paths(*args)
+    cur_sq = args[0]
     @news.each_with_object({}) do |dir, paths|
       paths[dir] = knight_find_path(cur_sq, dir)
     end

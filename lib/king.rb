@@ -9,7 +9,8 @@ class King < Piece
     super(clr, id)
   end
 
-  def collect_paths(cur_sq)
+  def collect_paths(*args)
+    cur_sq = args[0]
     @news.each_with_object({}) do |dir, paths|
       paths[dir] = find_path(cur_sq, dir) do |_, cnt|
         cnt == 1
