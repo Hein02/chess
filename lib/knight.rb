@@ -7,15 +7,21 @@ require_relative 'piece'
 class Knight < Piece
   def initialize(clr, id = :N)
     super(clr, id)
+    # first cha is for two-sqr dir and last cha is for one-sqr dir
     @news = %i[NE NW SE SW EN ES WN WS]
   end
 
+  # differ from Piece#collect_paths in a way that
+  # it uses its own Knight#knight_find_path instead of Piece#find_path
+  #
   def collect_paths(cur_sq)
     @news.each_with_object({}) do |dir, paths|
       paths[dir] = knight_find_path(cur_sq, dir)
     end
   end
 
+  # modified method of Piece#find_path
+  #
   def knight_find_path(cur_sq, dir)
     two_sq_dir = dir[0].to_sym
     one_sq_dir = dir[1].to_sym

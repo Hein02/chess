@@ -32,6 +32,7 @@ class Piece
     @clr = clr
     @id = id
     @sym = PCS_SYMS[clr][id]
+    @news = %i[N E W S NE NW SE SW]
   end
 
   def movement(cur_sq, sqrs)
