@@ -69,4 +69,14 @@ describe Pawn do
       end
     end
   end
+
+  describe '#movement' do
+    context 'when there is an en_passant pawn to capture' do
+      it 'adds en_passant list with the sq of that pawn to movement' do
+        pawn.instance_variable_set(:@en_pas_sq, :d4)
+        movement = pawn.movement(:c4, {})
+        expect(movement[:en_pas]).to eq(:d5)
+      end
+    end
+  end
 end

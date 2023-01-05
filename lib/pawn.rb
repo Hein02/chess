@@ -14,12 +14,12 @@ class Pawn < King
 
   def movement(cur_sq, sqrs)
     paths = collect_paths(cur_sq)
-    move_path = find_move_path(paths, sqrs)
-    modified_move_path = add_one_sq(move_path) if @first_move == true
-    {
-      moves: find_moves(modified_move_path, sqrs),
+    movement = {
+      moves: find_moves(paths, sqrs),
       captures: find_captures(paths, sqrs)
     }
+    movement[:en_pas] = find_sq_behind(@en_pas_sq) if @en_pas_sq
+    movement
   end
 
   def collect_paths(cur_sq)
