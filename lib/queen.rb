@@ -21,4 +21,11 @@ class Queen < Piece
       end
     end
   end
+
+  def find_moves(paths, sqrs)
+    paths.values.flatten.select do |sqr|
+      sqrs[sqr].nil?
+    end
+  end
+
 end
