@@ -68,11 +68,11 @@ describe Piece do
     end
 
     context 'when cur_rk is at the edge of the board' do
-      it 'returns rank of current sqr' do
+      it 'returns nil' do
         cur_rk = :'1'
         rk_dir = :S
         adj_rk = pc.find_adj_rk(cur_rk, rk_dir)
-        expect(adj_rk).to eq(cur_rk)
+        expect(adj_rk).to be_nil
       end
     end
   end
@@ -94,11 +94,11 @@ describe Piece do
     end
 
     context 'when cur_fl is at the edge of the board' do
-      it 'returns file of current sqr' do
+      it 'returns nil' do
         cur_fl = :a
         ver_dir = :W
         adj_fl = pc.find_adj_fl(cur_fl, ver_dir)
-        expect(adj_fl).to eq(cur_fl)
+        expect(adj_fl).to be_nil
       end
     end
   end
