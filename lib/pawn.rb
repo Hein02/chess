@@ -16,34 +16,38 @@ class Pawn < Piece
 
   def movement(cur_sq, sqrs)
     paths = collect_paths(cur_sq)
-    move_paths = select_mv_pths(paths)
-    cap_paths = select_cp_pths(paths)
     movement = {
-      moves: find_moves(move_paths, sqrs),
-      captures: find_captures(cap_paths, sqrs)
+      moves: find_moves(paths, sqrs),
+      captures: find_captures(paths, sqrs)
     }
     movement[:en_pas] = find_sq_behind(@en_pas_sq) if @en_pas_sq
     movement
-  end
-
-  def collect_paths(*args)
-    cur_sq = args[0]
-    @news.each_with_object({}) do |dir, paths|
-      paths[dir] = find_path(cur_sq, dir) do |_, cnt|
-        cnt == 1
-      end
-    end
   end
 
   def select_mv_pths(paths)
     paths.select { |dir, _| %i[N S].include?(dir) }
   end
 
+  def find_moves(paths, sqrs)
+    move_paths = select_mv_pths(paths)
+    move_paths.values.flatten.select do |sqr|
+      sqrs[sqr].nil?
+    end
+  end
+
+  def find_captures(paths, sqrs)
+    cap_paths = select_cp_pths(paths)
+    cap_paths.values.flatten.select do |sqr|
+      sqrs[sqr] && sqrs[sqr].clr != @color
+    end
+  end
+
   def select_cp_pths(paths)
     paths.reject { |dir, _| %i[N S].include?(dir) }
   end
 
-  def collect_paths(cur_sq)
+  def collect_paths(*args)
+    cur_sq = args[0]
     @news.each_with_object({}) do |dir, paths|
       paths[dir] = if %i[N S].include?(dir)
                      find_move_path(cur_sq, dir)
