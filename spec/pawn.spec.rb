@@ -18,9 +18,16 @@ describe Pawn do
     end
   end
 
-  describe '#movement' do
-    let(:piece) { double('piece', { clr: :w }) }
+  describe '#find_move_path' do
+    let(:piece) { double('piece') }
 
-    context 'when there is a piece'
+    context 'when there is a piece' do
+      it 'returns empty arr' do
+        paths = { N: [:d2] }
+        sqrs = { d2: piece }
+        actual = pawn.find_move_path(paths, sqrs)
+        expect(actual).to be_empty
+      end
+    end
   end
 end
