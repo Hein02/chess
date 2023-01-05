@@ -123,8 +123,6 @@ class Model
     @cur_p.king_sqr
   end
 
-  # TODO: check if the king can make castling move
-
   def switch_player
     @cur_p = @cur_p == @w_player ? @b_player : @w_player
   end
