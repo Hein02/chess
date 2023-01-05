@@ -62,10 +62,10 @@ class King < Piece
     rooks_sqs = find_rooks_sqs(sqrs)
     return [] if rooks_sqs.empty?
 
-    pth_nt_under_atk = pth_nt_under_atk(sqrs)
+    pth_nt_under_atk = pth_nt_under_atk(rooks_sqs, sqrs)
     return [] if pth_nt_under_atk.empty?
 
-    # update_rooks(rooks_sqs, sqrs, pth_nt_under_atk)
+    update_rooks(rooks_sqs, sqrs, pth_nt_under_atk)
     king_sqs(pth_nt_under_atk)
   end
 
@@ -76,8 +76,16 @@ class King < Piece
     end
   end
 
-  def pth_nt_under_atk(sqrs)
-    castling_pths = @clr == :w ? [%i[d1 c1], %i[f1 g1]] : [%i[d8 c8], %i[f8 g8]]
+  def match_rk_and_pth(rooks_sqs)
+    pth_for_rk = {
+      a1: %i[d1 c1], h1: %i[f1 g1],
+      a8: %i[d8 c8], h8: %i[f8 g8]
+    }
+    rooks_sqs.map { |sq| pth_for_rk[sq] }
+  end
+
+  def pth_nt_under_atk(rooks_sqs, sqrs)
+    castling_pths = match_rk_and_pth(rooks_sqs)
     castling_pths.select do |path|
       path.all? do |sq|
         !in_check?(sq, sqrs)
@@ -96,7 +104,7 @@ class King < Piece
     end
   end
 
-  def king_sqs(castling_pths)
-    castling_pths.map(&:last)
+  def king_sqs(pth_nt_under_atk)
+    pth_nt_under_atk.map(&:last)
   end
 end

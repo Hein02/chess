@@ -54,7 +54,8 @@ describe King do
   describe '#pth_nt_under_atk' do
     context 'when both paths\' sqs are not under attack' do
       it 'returns both paths' do
-        paths = king.pth_nt_under_atk({})
+        rook_sqs = %i[a1 h1]
+        paths = king.pth_nt_under_atk(rook_sqs, {})
         expect(paths).to eq([%i[d1 c1], %i[f1 g1]])
       end
     end
@@ -63,8 +64,9 @@ describe King do
       let(:black_queen) { double('queen', { id: :Q, clr: :b }) }
 
       it 'returns other path' do
+        rook_sqs = %i[a1 h1]
         sqrs = { a7: black_queen }
-        paths = king.pth_nt_under_atk(sqrs)
+        paths = king.pth_nt_under_atk(rook_sqs, sqrs)
         expect(paths).to eq([%i[d1 c1]])
       end
     end
@@ -72,9 +74,10 @@ describe King do
     context 'when both paths has sq under attack' do
       let(:black_queen) { double('queen', { id: :Q, clr: :b }) }
 
-      it 'returns other path' do
+      it 'returns empty arr' do
+        rook_sqs = %i[a1 h1]
         sqrs = { c5: black_queen }
-        paths = king.pth_nt_under_atk(sqrs)
+        paths = king.pth_nt_under_atk(rook_sqs, sqrs)
         expect(paths).to be_empty
       end
     end
