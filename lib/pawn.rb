@@ -5,6 +5,8 @@ require_relative 'king'
 # This class represents a pawn.
 #
 class Pawn < King
+  attr_reader :en_pas_sq
+
   def initialize(clr, id = :P)
     super(clr, id)
     @news = clr == :w ? %i[NE N NW] : %i[SE S SW]
