@@ -27,7 +27,7 @@ FILES = %i[a b c d e f g h].freeze
 # This class represents pieces.
 #
 class Piece
-  attr_reader :clr, :first_move
+  attr_reader :clr, :first_move, :id
 
   def initialize(clr, id)
     @clr = clr
