@@ -10,4 +10,8 @@ class Rook < Piece
     @news = %i[N E W S]
     @first_move = true
   end
+
+  def update_castling_sq(sqr)
+    @castling_sq = sqr
+  end
 end
