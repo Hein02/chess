@@ -17,4 +17,24 @@ class King < Piece
       end
     end
   end
+
+  def in_check?(cur_sq, sqrs)
+    dbles = create_dbles
+    dbles.any? do |dbl|
+      movement = dbl.movement(cur_sq, sqrs)
+      captures = movement[:captures]
+      dbl_exists?(dbl, captures, sqrs)
+    end
+  end
+
+  def create_dbles
+    [Queen, Rook, Bishop, Knight, Pawn, King].map { |dbl| dbl.new(@clr) }
+  end
+
+  def dbl_exists?(dbl, captures, sqrs)
+    captures.any? do |sqr|
+      found = sqrs[sqr]
+      found && found.clr != @clr && found.id == dbl.id
+    end
+  end
 end

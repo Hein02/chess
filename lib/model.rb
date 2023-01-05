@@ -83,23 +83,13 @@ class Model
 
   # Player in check
   def in_check?
-    dbles = create_dbles
-    dbles.any? do |dbl|
-      movement = dbl.movement(@cur_p.king_sqr, sqrs)
-      captures = movement[:captures]
-      dbl_exists?(dbl, captures)
-    end
+    king_sq = cur_p_king_sqr
+    king = find_pc(king_sq)
+    king.in_check?(king_sq, sqrs)
   end
 
-  def create_dbles
-    [Queen, Rook, Bishop, Knight, Pawn, King].map { |dbl| dbl.new(@cur_p.clr) }
-  end
-
-  def dbl_exists?(dbl, captures)
-    captures.any? do |sqr|
-      found = find_pc(sqr)
-      found && found.clr != @cur_p.clr && found.id == dbl.id
-    end
+  def cur_p_king_sqr
+    @cur_p.king_sqr
   end
 
   # TODO: check if the king can make castling move
@@ -179,5 +169,5 @@ mdl = Model.new(brd, w_player, b_player)
 
 # in check
 mdl.place_pc(w_k, :e1)
-mdl.place_pc(b_k, :d2)
+mdl.place_pc(b_q, :a2)
 puts mdl.in_check?
