@@ -21,8 +21,8 @@ describe Model do
 
     it 'calls Piece#movement' do
       sqr = :a1
-      expect(pc).to receive(:movement).with(sqr)
-      model.find_movement(pc, sqr)
+      expect(pc).to receive(:movement).with(sqr, {})
+      model.find_movement(pc, sqr, {})
     end
   end
 
@@ -36,21 +36,11 @@ describe Model do
   end
 
   describe '#record_king_sqr' do
-
     it 'calls Player#update_king_sqr' do
       sqr = :a2
       cur_p = model.instance_variable_get(:@cur_p)
       expect(cur_p).to receive(:update_king_sqr).with(sqr)
       model.record_king_sqr(sqr)
-    end
-  end
-
-  describe '#king_in_check?' do
-    let(:king) { double('king') }
-
-    it 'calls King#in_check?' do
-      expect(king).to receive(:in_check?)
-      model.king_in_check?(king)
     end
   end
 
