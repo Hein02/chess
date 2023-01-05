@@ -11,7 +11,11 @@ class Queen < Piece
   end
 
   def movement(cur_sq, sqrs)
-
+    paths = collect_paths(cur_sq, sqrs)
+    {
+      moves: find_moves(paths, sqrs),
+      captures: find_captures(paths, sqrs)
+    }
   end
 
   def collect_paths(cur_sq, sqrs)
