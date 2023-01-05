@@ -21,7 +21,7 @@ class Model
   end
 
   def select_pc(sqr)
-    @brd.find_pc(sqr)
+    find_pc(sqr)
   end
 
   def find_movement(piece, sqr, sqrs)
@@ -56,8 +56,8 @@ class Model
   def find_adj_e_pwn(piece, sqr)
     left = piece.find_adj_sq(sqr, :W, nil)
     right = piece.find_adj_sq(sqr, :E, nil)
-    e_pwn_sq = [left, right].find { |sq| select_pc(sq) }
-    select_pc(e_pwn_sq)
+    e_pwn_sq = [left, right].find { |sq| find_pc(sq) }
+    find_pc(e_pwn_sq)
   end
 
   def remove_pwn_behind(piece)
@@ -97,7 +97,7 @@ class Model
 
   def dbl_exists?(dbl, captures)
     captures.any? do |sqr|
-      found = select_pc(sqr)
+      found = find_pc(sqr)
       found && found.clr != @cur_p.clr && found.id == dbl.id
     end
   end
@@ -122,6 +122,10 @@ class Model
 
   def pc_id(piece)
     piece.id
+  end
+
+  def find_pc(sqr)
+    @brd.find_pc(sqr)
   end
 end
 
@@ -175,5 +179,5 @@ mdl = Model.new(brd, w_player, b_player)
 
 # in check
 mdl.place_pc(w_k, :e1)
-mdl.place_pc(b_k, :d3)
+mdl.place_pc(b_k, :d2)
 puts mdl.in_check?
