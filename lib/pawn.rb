@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'king'
+require_relative 'piece'
 
 # This class represents a pawn.
 #
-class Pawn < King
+class Pawn < Piece
   attr_reader :en_pas_sq
 
   def initialize(clr, id = :P)
@@ -24,6 +24,15 @@ class Pawn < King
     }
     movement[:en_pas] = find_sq_behind(@en_pas_sq) if @en_pas_sq
     movement
+  end
+
+  def collect_paths(*args)
+    cur_sq = args[0]
+    @news.each_with_object({}) do |dir, paths|
+      paths[dir] = find_path(cur_sq, dir) do |_, cnt|
+        cnt == 1
+      end
+    end
   end
 
   def select_mv_pths(paths)
