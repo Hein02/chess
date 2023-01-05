@@ -9,32 +9,4 @@ class Queen < Piece
     super(clr, id)
     @news = %i[N E W S NE NW SE SW]
   end
-
-  def movement(cur_sq, sqrs)
-    paths = collect_paths(cur_sq, sqrs)
-    {
-      moves: find_moves(paths, sqrs),
-      captures: find_captures(paths, sqrs)
-    }
-  end
-
-  def collect_paths(cur_sq, sqrs)
-    @news.each_with_object({}) do |dir, paths|
-      paths[dir] = find_path(cur_sq, dir) do |sqr, _|
-        sqrs[sqr]
-      end
-    end
-  end
-
-  def find_moves(paths, sqrs)
-    paths.values.flatten.select do |sqr|
-      sqrs[sqr].nil?
-    end
-  end
-
-  def find_captures(paths, sqrs)
-    paths.values.flatten.select do |sqr|
-      sqrs[sqr] && sqrs[sqr].clr != @color
-    end
-  end
 end
