@@ -53,4 +53,20 @@ describe Pawn do
       end
     end
   end
+
+  describe '#find_sq_behind' do
+    it 'returns the sqr behind the given sqr' do
+      sqr = pawn.find_sq_behind(:d4)
+      expect(sqr).to eq(:d5)
+    end
+
+    context 'for black pawn' do
+      subject(:black_pawn) { described_class.new(:b) }
+
+      it 'returns the sqr behind the given sqr' do
+        sqr = black_pawn.find_sq_behind(:d4)
+        expect(sqr).to eq(:d3)
+      end
+    end
+  end
 end

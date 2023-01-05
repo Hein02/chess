@@ -9,6 +9,7 @@ class Pawn < King
     super(clr, id)
     @news = clr == :w ? %i[NE N NW] : %i[SE S SW]
     @first_move = true
+    @en_pas_sq = nil
   end
 
   def movement(cur_sq, sqrs)
@@ -34,5 +35,10 @@ class Pawn < King
   def find_move_path(cur_sq, dir)
     movable = @first_move ? 2 : 1
     find_path(cur_sq, dir) { |_, cnt| cnt == movable }
+  end
+
+  def find_sq_behind(sqr)
+    dir = @clr == :w ? 1 : -1
+    "#{sqr[0]}#{sqr[1].to_i + dir}".to_sym
   end
 end
