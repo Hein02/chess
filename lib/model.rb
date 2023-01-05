@@ -169,5 +169,5 @@ mdl = Model.new(brd, w_player, b_player)
 
 # in check
 mdl.place_pc(w_k, :e1)
-mdl.place_pc(b_q, :a2)
+mdl.place_pc(b_q, :a1)
 puts mdl.in_check?
