@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'king'
-require_relative 'queen'
-require_relative 'bishop'
-require_relative 'rook'
-require_relative 'knight'
-require_relative 'pawn'
-
-FILES = %i[a b c d e f g h].freeze
-
 # This class represents the chess board.
 #
 class Board
