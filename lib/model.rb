@@ -123,6 +123,41 @@ class Model
     @cur_p.king_sqr
   end
 
+  # Checkmate
+  def checkmate?(pcs = cur_p_pcs.to_a)
+    return true if pcs.empty?
+
+    sqr, pc = pcs.pop
+    tst_brd = Board.new(sqrs)
+    tst_sqs = tst_brd.sqrs
+    movement = pc.movement(sqr, tst_sqs)
+    moves = movement[:moves] + movement[:captures]
+
+    check = move_and_check?(moves, tst_brd, sqr, pc)
+    return false if check == false
+
+    checkmate?(pcs)
+  end
+
+  def move_and_check?(moves, brd, sqr, piece)
+    return true if moves.empty?
+
+    to = moves.pop
+    brd.reassign_pc(sqr, to)
+    record_king_sqr(to) if piece.id == :K
+    king = brd.find_pc(cur_p_king_sqr)
+    check = king.in_check?(cur_p_king_sqr, brd.sqrs)
+    brd.reassign_pc(to, sqr)
+    record_king_sqr(sqr) if piece.id == :K
+    return false if check == false
+
+    move_and_check?(moves, brd, sqr, piece)
+  end
+
+  def cur_p_pcs
+    sqrs.select { |_, pc| pc && pc.clr == @cur_p.clr }
+  end
+
   def switch_player
     @cur_p = @cur_p == @w_player ? @b_player : @w_player
   end
@@ -211,3 +246,10 @@ end
 # mdl.move_pc(:e1, to)
 # mdl.move_pc(:a1, w_r.castling_sq) if castling.include?(to)
 # print mdl.sqrs[:d1]
+
+# checkmate
+# mdl.place_pc(w_k, :e1)
+# mdl.place_pc(w_q, :d5)
+# mdl.place_pc(b_q, :a1)
+# mdl.place_pc(b_r, :a2)
+# print mdl.checkmate?
