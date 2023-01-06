@@ -120,6 +120,3 @@ class Controller
     @model.save_game
   end
 end
-
-ctrl = Controller.start
-ctrl.play
