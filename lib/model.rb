@@ -13,6 +13,7 @@ require_relative 'constants'
 require_relative 'referee'
 require_relative 'en_passant'
 require_relative 'castling'
+require_relative 'savable'
 
 # This class acts as a central command center of a Chess game.
 #
@@ -21,9 +22,9 @@ class Model
   include EnPassant
   include Castling
 
-  def initialize(brd, w_player, b_player, referee = nil)
+  def initialize(brd, w_player, b_player, cur_p = nil, referee = nil)
     @brd = brd
-    @cur_p = w_player
+    @cur_p = cur_p || w_player
     @w_player = w_player
     @b_player = b_player
     @referee = referee || Referee.new
@@ -34,6 +35,22 @@ class Model
     w_player = Player.new(:w, w_player_name)
     b_player = Player.new(:b, b_player_name)
     Model.new(brd, w_player, b_player)
+  end
+
+  def self.load_game(file_dir)
+    data = Model.load_data(file_dir)
+    brd = data[:brd]
+    w_player = data[:w_player]
+    b_player = data[:b_player]
+    cur_p = data[:cur_p]
+    Model.new(brd, w_player, b_player, cur_p)
+  end
+
+  def self.load_data(file_dir)
+    permitted_classes = [Symbol, Board, Rook, Knight, Bishop, Queen, King, Pawn, Player, Referee]
+    return unless File.exist?(file_dir)
+
+    YAML.load_file(file_dir, permitted_classes: permitted_classes, aliases: true, symbolize_names: true)
   end
 
   def select_pc(sqr)

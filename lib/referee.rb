@@ -7,11 +7,11 @@ end
 #
 class Referee
   def no_pc(piece)
-    raise GameError.new, 'No piece' unless piece
+    raise GameError.new, 'No piece' if piece.nil?
   end
 
   def not_cur_p_pc(pc_clr, cur_p_clr)
-    raise GameError.new, 'Not your piece' unless pc_clr == cur_p_clr
+    raise GameError.new, 'Not your piece' if pc_clr != cur_p_clr
   end
 
   def no_movements_avail(movement)

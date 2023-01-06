@@ -34,13 +34,43 @@ class Controller
   end
 
   def self.load_game
+    saved_files = Controller.retrieve_saved_files
+    return Controller.init_new_game if saved_files.empty?
 
+    Controller.display_saved_files(saved_files)
+    file_num = Controller.user_input { print 'Select one: ' }
+    file_dir = saved_files[file_num.to_i - 1]
+    puts "Loading... #{Controller.file_name_only(file_dir)}"
+    view = View.new
+    model = Model.load_game(file_dir)
+    Controller.new(model, view)
+  end
+
+  def self.retrieve_saved_files
+    Dir['saved_files/*']
+  end
+
+  def self.init_new_game
+    puts 'No save files to load. Please start a new game.'
+    Controller.new_game
+  end
+
+  def self.display_saved_files(files)
+    files.each_with_index do |file, idx|
+      puts "[#{idx + 1}] " + Controller.file_name_only(file)
+    end
+  end
+
+  def self.file_name_only(file)
+    file.gsub('saved_files/', '')
   end
 
   def play
     loop do
       display_brd
       display_cur_p_name
+      save = Controller.user_input { print 'Type s to save the game. ' }
+      save_game if save == 's'
       select_n_move
       return puts 'Checkmate' if checkmate?
     rescue GameError => e
@@ -85,7 +115,11 @@ class Controller
   def checkmate?
     @model.checkmate?
   end
+
+  def save_game
+    @model.save_game
+  end
 end
 
-ctrl = Controller.new_game
+ctrl = Controller.start
 ctrl.play

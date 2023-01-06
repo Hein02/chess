@@ -1,0 +1,387 @@
+---
+brd: !ruby/object:Board
+  sqrs:
+    :a8: !ruby/object:Rook
+      clr: :b
+      id: :R
+      sym: "♖"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      first_move: true
+    :b8: !ruby/object:Knight
+      clr: :b
+      id: :N
+      sym: "♘"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+      - :EN
+      - :ES
+      - :WN
+      - :WS
+    :c8: !ruby/object:Bishop
+      clr: :b
+      id: :B
+      sym: "♗"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+    :d8: !ruby/object:Queen
+      clr: :b
+      id: :Q
+      sym: "♕"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+    :e8: !ruby/object:King
+      clr: :b
+      id: :K
+      sym: "♔"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+      first_move: true
+    :f8: !ruby/object:Bishop
+      clr: :b
+      id: :B
+      sym: "♗"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+    :g8: !ruby/object:Knight
+      clr: :b
+      id: :N
+      sym: "♘"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+      - :EN
+      - :ES
+      - :WN
+      - :WS
+    :h8: !ruby/object:Rook
+      clr: :b
+      id: :R
+      sym: "♖"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      first_move: true
+    :a7: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :b7: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :c7: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :d7: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :e7:
+    :f7: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :g7: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :h7: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :a6:
+    :b6:
+    :c6:
+    :d6:
+    :e6:
+    :f6:
+    :g6:
+    :h6:
+    :a5:
+    :b5:
+    :c5:
+    :d5:
+    :e5: !ruby/object:Pawn
+      clr: :b
+      id: :P
+      sym: "♙"
+      news:
+      - :SE
+      - :S
+      - :SW
+      first_move: true
+      en_pas_sq:
+    :f5:
+    :g5:
+    :h5:
+    :a4:
+    :b4:
+    :c4:
+    :d4: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :e4:
+    :f4:
+    :g4:
+    :h4:
+    :a3:
+    :b3:
+    :c3:
+    :d3:
+    :e3:
+    :f3:
+    :g3:
+    :h3:
+    :a2: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :b2: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :c2: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :d2:
+    :e2: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :f2: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :g2: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :h2: !ruby/object:Pawn
+      clr: :w
+      id: :P
+      sym: "♟"
+      news:
+      - :NE
+      - :N
+      - :NW
+      first_move: true
+      en_pas_sq:
+    :a1: !ruby/object:Rook
+      clr: :w
+      id: :R
+      sym: "♜"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      first_move: true
+    :b1: !ruby/object:Knight
+      clr: :w
+      id: :N
+      sym: "♞"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+      - :EN
+      - :ES
+      - :WN
+      - :WS
+    :c1: !ruby/object:Bishop
+      clr: :w
+      id: :B
+      sym: "♝"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+    :d1: !ruby/object:Queen
+      clr: :w
+      id: :Q
+      sym: "♛"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+    :e1: !ruby/object:King
+      clr: :w
+      id: :K
+      sym: "♚"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+      first_move: true
+    :f1: !ruby/object:Bishop
+      clr: :w
+      id: :B
+      sym: "♝"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+    :g1: !ruby/object:Knight
+      clr: :w
+      id: :N
+      sym: "♞"
+      news:
+      - :NE
+      - :NW
+      - :SE
+      - :SW
+      - :EN
+      - :ES
+      - :WN
+      - :WS
+    :h1: !ruby/object:Rook
+      clr: :w
+      id: :R
+      sym: "♜"
+      news:
+      - :N
+      - :E
+      - :W
+      - :S
+      first_move: true
+cur_p: &1 !ruby/object:Player
+  clr: :w
+  name: a
+  king_sqr: :e1
+w_player: *1
+b_player: !ruby/object:Player
+  clr: :b
+  name: b
+  king_sqr: :e8
+referee: !ruby/object:Referee {}
