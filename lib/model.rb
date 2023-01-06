@@ -10,32 +10,50 @@ require_relative 'knight'
 require_relative 'pawn'
 require_relative 'check_n_checkmate'
 require_relative 'constants'
+require_relative 'referee'
 
 # This class acts as a central command center of a Chess game.
 #
 class Model
   include CheckNCheckmate
 
-  def initialize(brd, w_player, b_player)
+  def initialize(brd, w_player, b_player, referee = nil)
     @brd = brd
     @cur_p = w_player
     @w_player = w_player
     @b_player = b_player
+    @referee = referee || Referee.new
   end
 
-  def self.new_game
+  def self.new_game(w_player_name = 'White', b_player_name = 'Black')
     brd = Board.init_setup
-    w_player = Player.new(:w, 'a')
-    b_player = Player.new(:b, 'b')
+    w_player = Player.new(:w, w_player_name)
+    b_player = Player.new(:b, b_player_name)
     Model.new(brd, w_player, b_player)
   end
 
   def select_pc(sqr)
-    find_pc(sqr)
+    pc = find_pc(sqr)
+    @referee.no_pc(pc)
+    @referee.not_cur_p_pc(pc.clr, @cur_p.clr)
+    pc
   end
 
-  def move_pc(from, to)
+  def move_pc(from, to, movement)
+    @referee.invalid_mv(movement, to)
     @brd.reassign_pc(from, to)
+    pc = find_pc(to)
+    record_king_sqr(to) if pc.id == :K
+    if in_check?
+      @brd.reassign_pc(to, from)
+      record_king_sqr(from) if pc.id == :K
+      @referee.player_in_check
+    else
+      record_first_move(pc) if pc.id == :P || pc.id == :K || pc.id == :R
+      handle_castling(pc, movement, to) if pc.id == :K
+      handle_en_passant(pc, from, to, movement) if pc.id == :P
+    end
+    switch_player
   end
 
   def record_king_sqr(sqr)
@@ -98,7 +116,7 @@ class Model
     rook_from = rook_sq[to]
     rook = select_pc(rook_from)
     rook_to = rook.castling_sq
-    move_pc(rook_from, rook_to)
+    @brd.reassign_pc(rook_from, rook_to)
   end
 
   def switch_player
@@ -123,6 +141,16 @@ class Model
 
   def find_pc(sqr)
     @brd.find_pc(sqr)
+  end
+
+  def cur_p_name
+    @cur_p.name
+  end
+
+  def find_movement(piece, sqr)
+    movement = piece.movement(sqr, sqrs)
+    @referee.no_movements_avail(movement)
+    movement
   end
 end
 
