@@ -12,12 +12,14 @@ require_relative 'check_n_checkmate'
 require_relative 'constants'
 require_relative 'referee'
 require_relative 'en_passant'
+require_relative 'castling'
 
 # This class acts as a central command center of a Chess game.
 #
 class Model
   include CheckNCheckmate
   include EnPassant
+  include Castling
 
   def initialize(brd, w_player, b_player, referee = nil)
     @brd = brd
@@ -78,18 +80,6 @@ class Model
     piece.first_move
   end
 
-  # Castling handler
-  def handle_castling(piece, movement, to)
-    rook_sq = piece.clr == :w ? { g1: :h1, c1: :a1 } : { g8: :h8, c8: :a8 }
-    castling = movement[:castling]
-    return unless castling&.include?(to)
-
-    rook_from = rook_sq[to]
-    rook = select_pc(rook_from)
-    rook_to = rook.castling_sq
-    @brd.reassign_pc(rook_from, rook_to)
-  end
-
   def switch_player
     @cur_p = @cur_p == @w_player ? @b_player : @w_player
   end
@@ -104,10 +94,6 @@ class Model
 
   def place_pc(piece, sqr)
     @brd.assign_pc(piece, sqr)
-  end
-
-  def pc_id(piece)
-    piece.id
   end
 
   def find_pc(sqr)
