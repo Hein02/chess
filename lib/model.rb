@@ -39,20 +39,28 @@ class Model
     pc
   end
 
-  def move_pc(from, to, movement)
+  def move_pc(from, to, movement = {})
     @referee.invalid_mv(movement, to)
     @brd.reassign_pc(from, to)
     pc = find_pc(to)
     record_king_sqr(to) if pc.id == :K
     if in_check?
-      @brd.reassign_pc(to, from)
-      record_king_sqr(from) if pc.id == :K
-      @referee.player_in_check
+      reverse_move(from, to, pc)
     else
-      record_first_move(pc) if pc.id == :P || pc.id == :K || pc.id == :R
-      handle_castling(pc, movement, to) if pc.id == :K
-      handle_en_passant(pc, from, to, movement) if pc.id == :P
+      not_in_check(pc, movement, to, from)
     end
+  end
+
+  def reverse_move(from, to, piece)
+    @brd.reassign_pc(to, from)
+    record_king_sqr(from) if piece.id == :K
+    @referee.player_in_check
+  end
+
+  def not_in_check(piece, movement, to, from)
+    record_first_move(piece) if piece.id == :P || piece.id == :K || piece.id == :R
+    handle_castling(piece, movement, to) if piece.id == :K
+    handle_en_passant(piece, from, to, movement) if piece.id == :P
     switch_player
   end
 
