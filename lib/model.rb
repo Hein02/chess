@@ -9,31 +9,7 @@ require_relative 'rook'
 require_relative 'knight'
 require_relative 'pawn'
 require_relative 'check_n_checkmate'
-
-# unicode chess-piece symbols look-up
-#
-PCS_SYMS = {
-  b: {
-    K: "\u2654",
-    Q: "\u2655",
-    R: "\u2656",
-    B: "\u2657",
-    N: "\u2658",
-    P: "\u2659"
-  },
-  w: {
-    K: "\u265a",
-    Q: "\u265b",
-    R: "\u265c",
-    B: "\u265d",
-    N: "\u265e",
-    P: "\u265f"
-  }
-}.freeze
-
-RANKS = %i[1 2 3 4 5 6 7 8].freeze
-FILES = %i[a b c d e f g h].freeze
-NEWS = { N: 1, E: 1, W: -1, S: -1 }.freeze
+require_relative 'constants'
 
 # This class acts as a central command center of a Chess game.
 #
@@ -71,6 +47,12 @@ class Model
   end
 
   # En_passant Handlers
+  def handle_en_passant(piece, from, to, movement)
+    add_en_pas_sq(piece, to) if piece.first_move && two_sq_adv?(from, to)
+    en_pas = movement[:en_pas]
+    make_en_pas_mv(piece) if en_pas == to
+  end
+
   def two_sq_adv?(from, to)
     (from[1].to_i - to[1].to_i).abs == 2
   end
@@ -105,6 +87,18 @@ class Model
   def make_en_pas_mv(piece)
     remove_pwn_behind(piece)
     piece.update_en_pas_sq(nil)
+  end
+
+  # Castling handler
+  def handle_castling(piece, movement, to)
+    rook_sq = piece.clr == :w ? { g1: :h1, c1: :a1 } : { g8: :h8, c8: :a8 }
+    castling = movement[:castling]
+    return unless castling&.include?(to)
+
+    rook_from = rook_sq[to]
+    rook = select_pc(rook_from)
+    rook_to = rook.castling_sq
+    move_pc(rook_from, rook_to)
   end
 
   def switch_player
@@ -204,15 +198,40 @@ end
 # print mdl.checkmate?
 
 # game flow
-mdl = Model.new_game
+# mdl = Model.new_game
 
-user_inputs = [%i[e2 e4], %i[f7 f5], %i[e4 f5], %i[g7 g5], %i[d1 h5]] # checkmate
+# checkmate = [%i[e2 e4], %i[f7 f5], %i[e4 f5], %i[g7 g5], %i[d1 h5]] # checkmate
 
-user_inputs.each do |input|
-  from, to = input
-  pc = mdl.select_pc(from)
-  mdl.move_pc(from, to)
-  mdl.record_king_sqr(to) if pc.id == :K
-  mdl.switch_player
-  puts mdl.checkmate? if mdl.in_check?
-end
+# checkmate.each do |input|
+#   from, to = input
+#   pc = mdl.select_pc(from)
+#   mdl.move_pc(from, to)
+#   mdl.record_king_sqr(to) if pc.id == :K
+#   mdl.switch_player
+#   puts mdl.checkmate? if mdl.in_check?
+# end
+
+# en_passant = [%i[d2 d4], %i[f7 f5], %i[d4 d5], %i[c7 c5], %i[d5 c6]] # en_passant
+
+# en_passant.each do |input|
+#   from, to = input
+#   pc = mdl.select_pc(from)
+#   mdl.move_pc(from, to)
+#   movement = pc.movement(from, mdl.sqrs)
+#   handle_en_passant(pc, from, to, movement, mdl) if pc.id == :P
+#   mdl.record_king_sqr(to) if pc.id == :K
+#   mdl.switch_player
+# end
+# pc = mdl.find_pc(:c5)
+# print pc
+
+# castling = [%i[g1 f3], %i[e7 e5], %i[e2 e4], %i[g7 g5], %i[f1 c4], %i[c7 c5], %i[e1 g1]] # castling
+# castling.each do |input|
+#   from, to = input
+#   pc = mdl.select_pc(from)
+#   movement = pc.movement(from, mdl.sqrs)
+#   mdl.move_pc(from, to)
+#   mdl.record_king_sqr(to) if pc.id == :K
+#   handle_castling(pc, movement, to, mdl) if pc.id == :K
+#   mdl.switch_player
+# end
