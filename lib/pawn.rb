@@ -38,7 +38,7 @@ class Pawn < Piece
   def find_captures(paths, sqrs)
     cap_paths = select_cp_pths(paths)
     cap_paths.values.flatten.select do |sqr|
-      sqrs[sqr] && sqrs[sqr].clr != @color
+      sqrs[sqr] && sqrs[sqr].clr != @clr
     end
   end
 
@@ -69,5 +69,9 @@ class Pawn < Piece
 
   def update_en_pas_sq(sqr)
     @en_pas_sq = sqr
+  end
+
+  def update_first_move(bool)
+    @first_move = bool
   end
 end

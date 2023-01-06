@@ -16,4 +16,8 @@ class Rook < Piece
   def update_castling_sq(sqr)
     @castling_sq = sqr
   end
+
+  def update_first_move(bool)
+    @first_move = bool
+  end
 end

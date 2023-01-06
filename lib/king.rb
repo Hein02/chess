@@ -84,4 +84,8 @@ class King < Piece
                 end
               end
   end
+
+  def update_first_move(bool)
+    @first_move = bool
+  end
 end
