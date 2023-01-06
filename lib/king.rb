@@ -16,8 +16,8 @@ class King < Piece
       moves: find_moves(paths, sqrs),
       captures: find_captures(paths, sqrs)
     }
-    castling_sqs = castling(sqrs)
-    movement[:castling] = castling_sqs unless castling_sqs.empty?
+    castling = castling(sqrs) if @first_move == true
+    movement[:castling] = castling unless castling.empty?
     movement
   end
 
@@ -52,16 +52,18 @@ class King < Piece
 
   # Castling
   def castling(sqrs)
-    return [] if @first_move == false
-
+    king_dests = []
     rooks_sqs = find_rooks_sqs(sqrs)
-    return [] if rooks_sqs.empty?
+    return king_dests if rooks_sqs.empty?
 
-    pth_nt_under_atk = pth_nt_under_atk(rooks_sqs, sqrs)
-    return [] if pth_nt_under_atk.empty?
+    castling_pths = castling_pths(rooks_sqs, sqrs)
+    return king_dests if castling_pths.empty?
 
-    update_rooks(rooks_sqs, sqrs, pth_nt_under_atk)
-    king_sqs(pth_nt_under_atk)
+    castling_pths.each do |rk, pth|
+      sqrs[rk].update_castling_sq(pth[0])
+      king_dests << pth[1]
+    end
+    king_dests
   end
 
   def find_rooks_sqs(sqrs)
@@ -71,35 +73,15 @@ class King < Piece
     end
   end
 
-  def match_rk_and_pth(rooks_sqs)
-    pth_for_rk = {
-      a1: %i[d1 c1], h1: %i[f1 g1],
-      a8: %i[d8 c8], h8: %i[f8 g8]
+  def castling_pths(rooks_sqs, sqrs)
+    rook_n_pth = {
+      a1: %i[d1 c1], h1: %i[f1 g1], a8: %i[d8 c8], h8: %i[f8 g8]
     }
-    rooks_sqs.map { |sq| pth_for_rk[sq] }
-  end
-
-  def pth_nt_under_atk(rooks_sqs, sqrs)
-    castling_pths = match_rk_and_pth(rooks_sqs)
-    castling_pths.select do |path|
-      path.all? do |sq|
-        sqrs[sq].nil? && !in_check?(sq, sqrs)
-      end
-    end
-  end
-
-  def rooks_dest(castling_pths)
-    castling_pths.map(&:first)
-  end
-
-  def update_rooks(rooks_sqs, sqrs, castling_paths)
-    rooks_dests = rooks_dest(castling_paths)
-    rooks_dests.each_with_index do |dest, idx|
-      sqrs[rooks_sqs[idx]]&.update_castling_sq(dest)
-    end
-  end
-
-  def king_sqs(pth_nt_under_atk)
-    pth_nt_under_atk.map(&:last)
+    rook_n_pth.select { |rk, _| rooks_sqs.include?(rk) }
+              .select do |_, path|
+                path.all? do |sq|
+                  sqrs[sq].nil? && !in_check?(sq, sqrs)
+                end
+              end
   end
 end
