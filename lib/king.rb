@@ -83,7 +83,7 @@ class King < Piece
     castling_pths = match_rk_and_pth(rooks_sqs)
     castling_pths.select do |path|
       path.all? do |sq|
-        !in_check?(sq, sqrs)
+        sqrs[sq].nil? && !in_check?(sq, sqrs)
       end
     end
   end
