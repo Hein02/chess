@@ -36,7 +36,7 @@ class Piece
 
   def find_captures(paths, sqrs)
     paths.values.flatten.select do |sqr|
-      sqrs[sqr] && sqrs[sqr].clr != @color
+      sqrs[sqr] && sqrs[sqr].clr != @clr
     end
   end
 

@@ -16,16 +16,6 @@ describe Model do
     end
   end
 
-  describe '#find_movement' do
-    let(:pc) { double('piece') }
-
-    it 'calls Piece#movement' do
-      sqr = :a1
-      expect(pc).to receive(:movement).with(sqr, {})
-      model.find_movement(pc, sqr, {})
-    end
-  end
-
   describe '#move_pc' do
     it 'calls Board#reassign_pc' do
       from = :a2
@@ -41,15 +31,6 @@ describe Model do
       cur_p = model.instance_variable_get(:@cur_p)
       expect(cur_p).to receive(:update_king_sqr).with(sqr)
       model.record_king_sqr(sqr)
-    end
-  end
-
-  describe '#move_back' do
-    it 'calls Board#reassign_pc with arguments in reverse order' do
-      from = :a1
-      to = :a3
-      expect(brd).to receive(:reassign_pc).with(to, from)
-      model.move_back(from, to)
     end
   end
 

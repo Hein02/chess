@@ -58,20 +58,12 @@ class Model
     find_pc(sqr)
   end
 
-  def find_movement(piece, sqr, sqrs)
-    piece.movement(sqr, sqrs)
-  end
-
   def move_pc(from, to)
     @brd.reassign_pc(from, to)
   end
 
   def record_king_sqr(sqr)
     @cur_p.update_king_sqr(sqr)
-  end
-
-  def move_back(from, to)
-    @brd.reassign_pc(to, from)
   end
 
   def record_first_move(piece)
@@ -210,3 +202,17 @@ end
 # mdl.place_pc(b_q, :a1)
 # mdl.place_pc(b_r, :a2)
 # print mdl.checkmate?
+
+# game flow
+mdl = Model.new_game
+
+user_inputs = [%i[e2 e4], %i[f7 f5], %i[e4 f5], %i[g7 g5], %i[d1 h5]] # checkmate
+
+user_inputs.each do |input|
+  from, to = input
+  pc = mdl.select_pc(from)
+  mdl.move_pc(from, to)
+  mdl.record_king_sqr(to) if pc.id == :K
+  mdl.switch_player
+  puts mdl.checkmate? if mdl.in_check?
+end
