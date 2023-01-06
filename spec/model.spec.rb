@@ -8,23 +8,6 @@ describe Model do
   let(:b_player) { double('player') }
   subject(:model) { described_class.new(brd, w_player, b_player) }
 
-  describe '#select_pc' do
-    it 'calls Board#find_pc' do
-      sqr = :a1
-      expect(brd).to receive(:find_pc).with(sqr)
-      model.select_pc(sqr)
-    end
-  end
-
-  describe '#move_pc' do
-    it 'calls Board#reassign_pc' do
-      from = :a2
-      to = :a4
-      expect(brd).to receive(:reassign_pc).with(from, to)
-      model.move_pc(from, to)
-    end
-  end
-
   describe '#record_king_sqr' do
     it 'calls Player#update_king_sqr' do
       sqr = :a2
