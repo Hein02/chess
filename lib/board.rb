@@ -3,7 +3,7 @@
 # This class represents the chess board.
 #
 class Board
-  def initialize(sqrs)
+  def initialize(sqrs = Board.empty_sqrs)
     @sqrs = sqrs
   end
 
